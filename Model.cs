@@ -1,15 +1,24 @@
 ﻿using System;
 
-public interface AbstractModel : IObservable
+public class Model : AbstractModel
 {
     //IObservable
     public delegate void NotifyPropertyChanged(object notifyer, string propertyName);
     public event NotifyPropertyChanged listeners;
 
-    public void play(int frequency, int startPoint);
-    public void pause();
+    public void play(int frequency, int startPoint) 
+    {
+    
+    }
+    public void pause()
+    {
 
-    public void loadFile(string name);
+    }
+
+    public void loadFile(string name)
+    {
+
+    }
 
     // plane data
     public double yaw { }
