@@ -1,8 +1,7 @@
 ﻿using System;
 
-public interface AbstractModel
+public interface AbstractModel : IObservable
 {
-	public Class1()
-	{
-	}
+
+
 }
