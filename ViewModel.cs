@@ -4,8 +4,12 @@ public class ViewModel : IObservable {
 	
 	private Model _model; 
 
-	public ViewModel();
-	public void NotifyPropertyChanged(object notifyer, string propertyName);
+	public ViewModel(Model model)
+	{
+		this._model = model;
+	}
+	
+	public delegate void NotifyPropertyChanged(object notifyer, string propertyName);
 	public event NotifyPropertyChanged listeners;
 
 	public double VM_yaw;
@@ -18,5 +22,5 @@ public class ViewModel : IObservable {
 	public int VM_aileron;
 	public int VM_rudder;
 	public int VM_elevator;
-	public int VM_throttle;
+	public int VM_throttle;	
 }
