@@ -1,131 +1,269 @@
-﻿using System;
-using System.Io;
-using System.Threading;
+using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Threading;
 using System.Net;
 using System.Net.Sockets;
+using System.IO;
 
-
-
-public class Model : AbstractModel
+namespace APEx1
 {
-    private string fileName;
-    private List<string> data;
-    private string[] arrData;
-    private bool run; 
-
-    //IObservable
-    public delegate void NotifyPropertyChanged(object notifyer, string propertyName);
-    public event NotifyPropertyChanged listeners;
-
-    public Model() 
+    public class Model : IObservable
     {
-        this.data = new List<string>();
-    }
+        private string fileName;
+        private List<string> data;
+        private string[] arrData;
 
-    public void play(int frequency, int startPoint) 
-    {
-        run = true;
-        //Thread t = new Thread();
-    }
+        private int startPoint; 
+        private int frequency;
+        private bool run;
 
-    public void pause()
-    {
-        run = false;
-    }
+        public event NotifyPropertyChanged observe;
 
-    public void loadFile(string name)
-    {
-        this.fileName = name;
-        try
+
+        //IObservable
+        //public delegate void NotifyPropertyChanged(object notifyer, string propertyName);
+        //public event NotifyPropertyChanged listeners;
+
+        public Model()
         {
-            string line; 
-            //Pass the file path and file name to the StreamReader constructor
-            StreamReader sr = new StreamReader(this.fileName);
-            line = sr.ReadLine();
-            while (line != null)
+            this.data = new List<string>();
+        }
+
+        public void play(int frequency, int startPoint)
+        {
+            this.startPoint = startPoint;
+            this.frequency = frequency;
+            this.run = true;
+
+            Thread t = new Thread(new ThreadStart(this.trasmitData));
+            t.Start();
+        }
+
+        public void pause()
+        {
+            run = false;
+        }
+
+        public void loadFile(string name)
+        {
+            this.fileName = name;
+            try
             {
-                //add the line to the list
-                data.Add(new string(line));
-                //Read the next line
+                string line;
+                //Pass the file path and file name to the StreamReader constructor
+                StreamReader sr = new StreamReader(this.fileName);
                 line = sr.ReadLine();
-            }
-            //close the file
-            sr.Close();
-            arrData = data.ToArray();
-        }
-        catch (Exception e)
-        {
-            Console.WriteLine("Exception: " + e.Message);
-        }
-        finally
-        {
-            sr.Close();
-            Console.WriteLine("Executing finally block.");
-        }
-    }
-
-    public trasmitData(int frequency, int startPoint)
-    {
-        try
-        {
-            IPHostEntry host = Dns.GetHostEntry("localhost");
-            IPAddress ipAddress = host.AddressList[0];
-            IPEndPoint localEndPoint = new IPEndPoint(ipAddress, 8081);
-            
-            // Create a TCP/IP socket.  
-            Socket client = new Socket(ipAddress.AddressFamily,
-                SocketType.Stream, ProtocolType.Tcp);
-            
-            client.BeginConnect(remoteEP, new AsyncCallback(ConnectCallback), client);
-            connectDone.WaitOne();
-
-            int i = startPoint;
-            Thread t = new Thread(delegate() { 
-                    Send(client, this.arrData[i++]);
-                });
-
-            while (run)
-            {
-                if (i >= arrData.Length())
+                while (line != null)
                 {
-                    run = false;
+                    //add the line to the list
+                    data.Add(new string(line.ToCharArray()));
+                    //Read the next line
+                    line = sr.ReadLine();
                 }
-                t.Start();
-                t.Join();
-                t.Interrupt(100);
+                //close the file
+                sr.Close();
+                this.arrData = data.ToArray();
             }
-        } 
-        catch
-        {
-            Console.WriteLine("An error in the massage sending to FG :-(");
+            catch (Exception e)
+            {
+                Console.WriteLine("Exception: " + e.Message);
+            }
         }
+
+        //public void trasmitData(int frequency, int startPoint)
+        public void trasmitData()
+        {
+            try
+            {
+                IPAddress ipAddress = IPAddress.Parse("127.0.0.1");
+                IPEndPoint remoteEP = new IPEndPoint(ipAddress, 5400);
+
+                // Create a TCP/IP socket.  
+                Socket client = new Socket(ipAddress.AddressFamily,
+                    SocketType.Stream, ProtocolType.Tcp);
+                client.Connect(remoteEP);
+
+                Console.WriteLine("Socket connected to {0}",
+                     client.RemoteEndPoint.ToString());
+
+
+                int i = this.startPoint;                
+
+                while (run)
+                {
+                    if (i >= arrData.Length - 1)
+                    {
+                        run = false;
+                    }
+                    // Encode the data string into a byte array.  
+                    byte[] msg = Encoding.ASCII.GetBytes(arrData[i]);
+
+                    // Send the data through the socket.  
+                    int bytesSent = client.Send(msg);
+                    Console.WriteLine(arrData[i]);
+                    i++;
+                    System.Threading.Thread.Sleep(frequency);
+                }
+
+                // Release the socket.  
+                //client.Shutdown(SocketShutdown.Both);
+                client.Close();
+            }
+            catch (Exception e)
+            {   
+                Console.WriteLine(e.Message);
+                System.Threading.Thread.Sleep(30000);
+
+            }
+        }
+
+
+        /// /////////////////////////////////////////////////////////////////////////////////////
+
+        private float yaw; 
+        // plane data
+        public float PYaw
+        {
+            get
+            {
+                return yaw;
+            }
+            set
+            {
+                yaw = value;
+                observe(this, "yaw");
+            }
+        }
+
+        private float roll;
+        public float PRoll 
+        {
+            get
+            {
+                return roll;
+            }
+            set
+            {
+                roll = value;
+                observe(this, "roll");
+            }
+        }
+
+        private float pitch;
+        public float PPitch 
+        {
+            get
+            {
+                return pitch;
+            }
+            set
+            {
+                pitch = value;
+                observe(this, "pitch");
+            }
+        }
+
+        private float direction;
+        public float PDirection 
+        {
+            get
+            {
+                return direction;
+            }
+            set
+            {
+                direction = value;
+                observe(this, "direction");
+            }
+        }
+
+        private float speed; 
+        public float PSpeed 
+        {
+            get
+            {
+                return speed;
+            }
+            set
+            {
+                speed = value;
+                observe(this, "speed");
+            }
+        }
+
+        private float hight; 
+        public float PHight 
+        {
+            get
+            {
+                return hight;
+            }
+            set
+            {
+                hight = value;
+                observe(this, "hight");
+            }
+        }
+
+        // joystick data
+        private float aileron;
+        public float PAileron 
+        {
+            get
+            {
+                return aileron;
+            }
+            set
+            {
+                aileron = value;
+                observe(this, "aileron");
+            }
+        }
+
+        private float rudder;
+        public float PRudder 
+        {
+            get
+            {
+                return rudder;
+            }
+            set
+            {
+                rudder = value;
+                observe(this, "rudder");
+            }
+        }
+
+        private float elevator;
+        public float PElevator 
+        {
+            get
+            {
+                return elevator;
+            }
+            set
+            {
+                elevator = value;
+                observe(this, "elevator");
+            }
+        }
+
+        private float throttle; 
+        public float PThrottle 
+        {
+            get
+            {
+                return throttle;
+            }
+            set
+            {
+                throttle = value;
+                observe(this, "throttle");
+            }
+        }
+
     }
-
-    /*
-     * aileron
-     * elevator
-     * rudder
-     * flaps -----
-     * slats -----
-     * speedbrake ------
-     * throtle
-     * 
-     * */
-
-
-    // airplane data
-    public double yaw { }
-    public double roll { }
-    public double pitch { }
-    public double direction { }
-    public double speed { }
-    public int hight { }
-
-    // joystick data
-    public int aileron { }
-    public int rudder { }
-    public int elevator { }
-    public int throttle { }
-
 }
