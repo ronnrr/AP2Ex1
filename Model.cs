@@ -1,8 +1,6 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Threading;
 using System.Net;
 using System.Net.Sockets;
@@ -49,6 +47,7 @@ namespace APEx1
 
         public void loadFile(string name)
         {
+            // this.data = new List<string>();
             this.fileName = name;
             try
             {
@@ -89,8 +88,8 @@ namespace APEx1
                 Console.WriteLine("Socket connected to {0}",
                      client.RemoteEndPoint.ToString());
 
-
-                int i = this.startPoint;                
+                int i = this.startPoint;
+                Datacollector dc = new Datacollector(this);
 
                 while (run)
                 {
@@ -103,25 +102,24 @@ namespace APEx1
 
                     // Send the data through the socket.  
                     int bytesSent = client.Send(msg);
+                    
                     Console.WriteLine(arrData[i]);
+                    //dc.updateData(arrData[i]);
                     i++;
                     System.Threading.Thread.Sleep(frequency);
                 }
 
                 // Release the socket.  
-                //client.Shutdown(SocketShutdown.Both);
                 client.Close();
             }
             catch (Exception e)
             {   
                 Console.WriteLine(e.Message);
-                System.Threading.Thread.Sleep(30000);
-
+                System.Threading.Thread.Sleep(10000);
             }
         }
 
-
-        /// /////////////////////////////////////////////////////////////////////////////////////
+        ////////////////////////////////////////////////////////////////////////////////////////
 
         private float yaw; 
         // plane data
@@ -157,7 +155,7 @@ namespace APEx1
         {
             get
             {
-                return pitch;
+                return pitch;    
             }
             set
             {
