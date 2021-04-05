@@ -7,6 +7,6 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-        <Slider Maximum="1000" Minimum="0" TickFrequency="1" Value="{Binding VM_CurrentTime}"></Slider>
+        <Slider x:Name="timeSlider" Maximum="100" Minimum="0" TickFrequency="1" Value="{Binding VM_CurrentTime}"></Slider>
     </Grid>
 </UserControl>

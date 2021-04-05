@@ -53,7 +53,7 @@ namespace APEx1
             {
                 string line;
                 //Pass the file path and file name to the StreamReader constructor
-                StreamReader sr = new StreamReader(this.fileName);
+                StreamReader sr = new StreamReader(PPath);
                 line = sr.ReadLine();
                 while (line != null)
                 {
@@ -273,6 +273,19 @@ namespace APEx1
             {
                 throttle = value;
                 observe(this, "throttle");
+            }
+        }
+        private string path;
+        public string PPath
+        {
+            get
+            {
+                return path;
+            }
+            set
+            {
+                path = value;
+                play(1, 0);
             }
         }
 

@@ -12,6 +12,11 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Microsoft.Win32;
+using System.Windows;
+using System.IO;
+
+
 
 namespace WpfApp1
 {
@@ -50,5 +55,13 @@ namespace WpfApp1
             int currFrequency = vm.VM_Frequency;
             vm.playAnimationFrequency(currFrequency / 2);
         }
+        public void OpenFile(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            if (openFileDialog.ShowDialog() == true)
+            File.ReadAllText(openFileDialog.FileName);
+            vm.setModelFileName(openFileDialog.FileName);
+        }
     }
 }
+/* MAKE SURE THE PROGRESS BAR KEEPS UP WITH THE VIDEO ITSELF */

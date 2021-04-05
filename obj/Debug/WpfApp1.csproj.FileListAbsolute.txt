@@ -13,6 +13,5 @@ C:\Users\Ron Zamir\source\repos\WpfApp1\WpfApp1\obj\Debug\WpfApp1.csproj.Generat
 C:\Users\Ron Zamir\source\repos\WpfApp1\WpfApp1\obj\Debug\WpfApp1.csproj.CoreCompileInputs.cache
 C:\Users\Ron Zamir\source\repos\WpfApp1\WpfApp1\obj\Debug\WpfApp1.exe
 C:\Users\Ron Zamir\source\repos\WpfApp1\WpfApp1\obj\Debug\WpfApp1.pdb
-C:\Users\Ron Zamir\source\repos\WpfApp1\WpfApp1\obj\Debug\GeneratedInternalTypeHelper.g.cs
 C:\Users\Ron Zamir\source\repos\WpfApp1\WpfApp1\obj\Debug\Controls\TimeController.g.cs
 C:\Users\Ron Zamir\source\repos\WpfApp1\WpfApp1\obj\Debug\Controls\TimeController.baml

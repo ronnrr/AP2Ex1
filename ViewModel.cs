@@ -10,6 +10,10 @@ public class ViewModel
         this._model = model;
     }
 
+    public void setModelFileName(string file)
+    {
+        _model.PPath = file;
+    }
     public void playAnimation()
     {
         if (!hasStopped)
