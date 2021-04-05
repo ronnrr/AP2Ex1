@@ -10,8 +10,7 @@ namespace APEx1
 {
     public class Model : IObservable
     {
-        private string fileName;
-        private List<string> data;
+        //private string fileName;
         private string[] arrData;
 
         private int startPoint; 
@@ -20,14 +19,12 @@ namespace APEx1
 
         public event NotifyPropertyChanged observe;
 
-
         //IObservable
         //public delegate void NotifyPropertyChanged(object notifyer, string propertyName);
         //public event NotifyPropertyChanged listeners;
 
         public Model()
         {
-            this.data = new List<string>();
         }
 
         public void play(int frequency, int startPoint)
@@ -47,24 +44,9 @@ namespace APEx1
 
         public void loadFile(string name)
         {
-            // this.data = new List<string>();
-            this.fileName = name;
             try
             {
-                string line;
-                //Pass the file path and file name to the StreamReader constructor
-                StreamReader sr = new StreamReader(this.fileName);
-                line = sr.ReadLine();
-                while (line != null)
-                {
-                    //add the line to the list
-                    data.Add(new string(line.ToCharArray()));
-                    //Read the next line
-                    line = sr.ReadLine();
-                }
-                //close the file
-                sr.Close();
-                this.arrData = data.ToArray();
+                arrData = File.ReadAllLines(name);
             }
             catch (Exception e)
             {
@@ -72,22 +54,14 @@ namespace APEx1
             }
         }
 
-        //public void trasmitData(int frequency, int startPoint)
         public void trasmitData()
         {
             try
             {
-                IPAddress ipAddress = IPAddress.Parse("127.0.0.1");
-                IPEndPoint remoteEP = new IPEndPoint(ipAddress, 5400);
-
-                // Create a TCP/IP socket.  
-                Socket client = new Socket(ipAddress.AddressFamily,
-                    SocketType.Stream, ProtocolType.Tcp);
-                client.Connect(remoteEP);
-
-                Console.WriteLine("Socket connected to {0}",
-                     client.RemoteEndPoint.ToString());
-
+                // Int32 port = 5400;
+                TcpClient client = new TcpClient("127.0.0.1", 5400);
+                NetworkStream stream = client.GetStream();
+                
                 int i = this.startPoint;
                 Datacollector dc = new Datacollector(this);
 
@@ -98,18 +72,17 @@ namespace APEx1
                         run = false;
                     }
                     // Encode the data string into a byte array.  
-                    byte[] msg = Encoding.ASCII.GetBytes(arrData[i]);
-
-                    // Send the data through the socket.  
-                    int bytesSent = client.Send(msg);
-                    
-                    Console.WriteLine(arrData[i]);
-                    //dc.updateData(arrData[i]);
+                    byte[] msg = Encoding.ASCII.GetBytes(arrData[i] + "\n");
+                    stream.Write(msg, 0, msg.Length);
+                
+                    dc.updateData(arrData[i]);
                     i++;
+                    
                     System.Threading.Thread.Sleep(frequency);
                 }
 
-                // Release the socket.  
+                // Close everything.
+                stream.Close();
                 client.Close();
             }
             catch (Exception e)
