@@ -8,16 +8,7 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-        <Controls:TimeController Margin="86,8,43,52" RenderTransformOrigin="0.5,0.5">
-            <Controls:TimeController.RenderTransform>
-                <TransformGroup>
-                    <ScaleTransform/>
-                    <SkewTransform/>
-                    <RotateTransform Angle="0.658"/>
-                    <TranslateTransform/>
-                </TransformGroup>
-            </Controls:TimeController.RenderTransform>
-        </Controls:TimeController>
+        <Slider x:Name="timeSlider" Maximum="100" Minimum="0" TickFrequency="1" Value="{Binding vm.VM_CurrentTime}"></Slider>
         <Button x:Name="playButton" Click="PlayClick" Margin="267,354,510,50" RenderTransformOrigin="0.5,0.5">
             <Button.RenderTransform>
                 <TransformGroup>
