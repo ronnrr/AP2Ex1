@@ -8,23 +8,25 @@ using System.IO;
 
 namespace APEx1
 {
-    public class Model : IObservable
+    public class Model 
     {
-        //private string fileName;
+        private List<string> data;
         private string[] arrData;
 
         private int startPoint; 
-        private int frequency;
         private bool run;
 
         public event NotifyPropertyChanged observe;
 
+		public delegate void NotifyPropertyChanged(object notifyer, string propertyName);
         //IObservable
         //public delegate void NotifyPropertyChanged(object notifyer, string propertyName);
         //public event NotifyPropertyChanged listeners;
 
         public Model()
         {
+            this.data = new List<string>();
+            line = 0;
         }
 
         public void play(int frequency, int startPoint)
@@ -54,6 +56,7 @@ namespace APEx1
             }
         }
 
+        //public void trasmitData(int frequency, int startPoint)
         public void trasmitData()
         {
             try
@@ -61,23 +64,23 @@ namespace APEx1
                 // Int32 port = 5400;
                 TcpClient client = new TcpClient("127.0.0.1", 5400);
                 NetworkStream stream = client.GetStream();
-                
-                int i = this.startPoint;
+
+                this.line = this.startPoint;
                 Datacollector dc = new Datacollector(this);
 
                 while (run)
                 {
-                    if (i >= arrData.Length - 1)
+                    if (this.line >= arrData.Length - 1)
                     {
                         run = false;
                     }
                     // Encode the data string into a byte array.  
-                    byte[] msg = Encoding.ASCII.GetBytes(arrData[i] + "\n");
+                    byte[] msg = Encoding.ASCII.GetBytes(arrData[line] + "\n");
                     stream.Write(msg, 0, msg.Length);
-                
+
                     // dc.updateData(arrData[i]);
-                    i++;
-                    
+                    this.line++;
+
                     System.Threading.Thread.Sleep(frequency);
                 }
 
@@ -86,13 +89,25 @@ namespace APEx1
                 client.Close();
             }
             catch (Exception e)
-            {   
+            {
                 Console.WriteLine(e.Message);
                 System.Threading.Thread.Sleep(10000);
             }
         }
 
         ////////////////////////////////////////////////////////////////////////////////////////
+        private int line;
+        public int PLine
+        {
+            get
+            {
+                return line;
+            }
+            set
+            {
+                line = value;
+            }
+        }
 
         private float yaw; 
         // plane data
@@ -109,6 +124,18 @@ namespace APEx1
             }
         }
 
+        private int frequency;
+        public int PFrequency
+        {
+            get
+            {
+                return frequency;
+            }
+            set
+            {
+                frequency = value;
+            }
+        }
         private float roll;
         public float PRoll 
         {
@@ -235,6 +262,20 @@ namespace APEx1
                 observe(this, "throttle");
             }
         }
+        private string path;
+        public string PPath
+        {
+            get
+            {
+                return path;
+            }
+            set
+            {
+                path = value;
+                play(1, 0);
+            }
+        }
 
     }
 }
+

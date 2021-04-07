@@ -8,9 +8,25 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-        <Button Name="openFile" Click="OpenFile" Margin="10,71,598,277">Open file</Button>
-        <Slider x:Name="timeSlider" Maximum="100" Minimum="0" TickFrequency="1" Value="{Binding vm.VM_CurrentTime}" Margin="0,0,-7,307"></Slider>
-        <Button x:Name="playButton" Click="PlayClick" Margin="267,354,510,50" RenderTransformOrigin="0.5,0.5">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="313*"/>
+            <ColumnDefinition Width="479*"/>
+        </Grid.ColumnDefinitions>
+        <Button Name="openFile" Click="OpenFile" Margin="10,71,119.384,277">Open file</Button>
+        <Slider x:Name="timeSlider" Maximum="100" Minimum="0" TickFrequency="1" Value="{Binding VM_CurrentTime}" Margin="0,0,-7,394" Grid.ColumnSpan="2"></Slider>
+        <!--need to find a way to change maximum to len of array of lines.--> 
+        <Slider x:Name="rudder" Margin="0,391,110.384,0"></Slider>
+        <Slider x:Name="throttle" Margin="0,350,106,38" RenderTransformOrigin="0.5,0.5">
+            <Slider.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform AngleY="-0.161"/>
+                    <RotateTransform/>
+                    <TranslateTransform Y="-1.115"/>
+                </TransformGroup>
+            </Slider.RenderTransform>
+        </Slider>
+        <Button x:Name="playButton" Click="PlayClick" Margin="16,35,282.384,369" RenderTransformOrigin="0.5,0.5">
             <Button.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform/>
@@ -20,9 +36,9 @@
                 </TransformGroup>
             </Button.RenderTransform>
         </Button>
-        <Button x:Name="pauseButton" Click="PauseClick" Margin="292,354,485,51"></Button>
-        <Button x:Name="stopButton" Click="StopClick" Margin="319,348,457,51"></Button>
-        <Button x:Name="increaseSpeed" Click="IncreaseFrequency" Margin="504,348,268,50"></Button>
-        <Button x:Name="decreaseSpeed" Click="DecreaseFrequency" Margin="198,328,544,50"></Button>
+        <Button x:Name="pauseButton" Click="PauseClick" Margin="46,35,252.384,370"></Button>
+        <Button x:Name="stopButton" Click="StopClick" Margin="80,35,217.384,364"></Button>
+        <Button x:Name="increaseSpeed" Click="IncreaseFrequency" Margin="198,35,95.384,363"></Button>
+        <Button x:Name="decreaseSpeed" Click="DecreaseFrequency" Margin="117,25,146.384,353"></Button>
     </Grid>
 </Window>

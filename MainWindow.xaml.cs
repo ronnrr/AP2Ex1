@@ -48,19 +48,20 @@ namespace WpfApp1
         public void IncreaseFrequency(object sender, RoutedEventArgs e)
         {
             int currFrequency = vm.VM_Frequency;
-            vm.playAnimationFrequency(currFrequency * 2);
+            vm.playAnimationFrequency(currFrequency / 2);
         }
         public void DecreaseFrequency(object sender, RoutedEventArgs e)
         {
             int currFrequency = vm.VM_Frequency;
-            vm.playAnimationFrequency(currFrequency / 2);
+            vm.playAnimationFrequency(currFrequency * 2);
         }
         public void OpenFile(object sender, RoutedEventArgs e)
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
             if (openFileDialog.ShowDialog() == true)
             File.ReadAllText(openFileDialog.FileName);
-            vm.setModelFileName(openFileDialog.FileName);
+            string a = openFileDialog.FileName;
+            vm.setModelFileName(a);
         }
     }
 }

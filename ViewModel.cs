@@ -12,14 +12,16 @@ public class ViewModel
 
     public void setModelFileName(string file)
     {
-        _model.PPath = file;
+        _model.loadFile(file);
+        _model.play(100, 0);
+        hasStopped = false;
     }
     public void playAnimation()
     {
         if (!hasStopped)
         {
             _model.pause();
-            _model.play(_frequency, VM_CurrentTime);
+            _model.play(_model.PFrequency, VM_CurrentTime);
         }
     }
     public void pauseAnimation()
@@ -36,9 +38,12 @@ public class ViewModel
     }
     public void playAnimationFrequency(int frequency)
     {
-        _model.play(frequency, VM_CurrentTime);
-        _frequency = frequency;
-        Console.WriteLine("Socket connected to {0}");
+        if (!hasStopped)
+        {
+            int temp = VM_CurrentTime;
+            _model.play(frequency, VM_CurrentTime);
+            _model.PFrequency = frequency;
+        }
     }
 
     private int currentTime;
@@ -48,20 +53,21 @@ public class ViewModel
         set
         {
             currentTime = value;
+            _model.PLine = value;
             _model.pause();
-            _model.play(_frequency, currentTime);
+            _model.play(VM_Frequency, currentTime);
         }
     }
 
-    private int _frequency;
+
     public int VM_Frequency
     {
-        get { return _frequency; }
+        get { return _model.PFrequency; }
         set
         {
-            _frequency = value;
+            _model.PFrequency = value;
             _model.pause();
-            _model.play(_frequency, VM_CurrentTime);
+            _model.play(_model.PFrequency, VM_CurrentTime);
         }
     }
 
