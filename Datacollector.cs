@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -22,7 +22,7 @@ namespace APEx1
         {
             try
             {
-                float[] properties = new float[50]; 
+                float[] properties = new float[50];
                 char[] chars = { ',' };
                 string[] arr = s.Split(chars);
 
@@ -40,6 +40,23 @@ namespace APEx1
                 mod.PRoll = properties[17]; //roll
                 mod.PPitch = properties[18]; //pitch
                 mod.PYaw = properties[21]; //yaw
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.ToString());
+            }
+            try
+            {
+                char[] a = { ',' };
+                string[] arr = s.Split(a);
+
+                mod.PAileron = float.Parse(arr[0]); //aileron
+                mod.PElevator = float.Parse(arr[1]); //elevator
+                mod.PRudder = float.Parse(arr[2]); //rudder
+                mod.PThrottle = float.Parse(arr[6]); //throttle
+                mod.PRoll = float.Parse(arr[17]); //roll
+                mod.PPitch = float.Parse(arr[18]); //pitch
+                mod.PYaw = float.Parse(arr[21]); //yaw
             }
             catch (Exception e)
             {

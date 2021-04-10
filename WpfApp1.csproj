@@ -55,6 +55,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="ObservableObject.cs" />
     <Compile Include="ViewModel.cs" />
     <Page Include="Controls\TimeController.xaml">
       <SubType>Designer</SubType>

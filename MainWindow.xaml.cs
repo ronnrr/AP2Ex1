@@ -32,7 +32,7 @@ namespace WpfApp1
             vm = new ViewModel(new APEx1.Model());
             DataContext = vm;
         }
-
+        
         public void PlayClick(object sender, RoutedEventArgs e)
         {
             vm.playAnimation();
@@ -63,6 +63,12 @@ namespace WpfApp1
             string a = openFileDialog.FileName;
             vm.setModelFileName(a);
         }
+        public void ValueChanged(object sender, RoutedEventArgs e)
+        {
+            Slider slider = sender as Slider;
+            vm.updateCurrentLine((int)slider.Value);
+        }
     }
 }
 /* MAKE SURE THE PROGRESS BAR KEEPS UP WITH THE VIDEO ITSELF */
+

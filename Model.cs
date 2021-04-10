@@ -13,7 +13,7 @@ namespace APEx1
         private List<string> data;
         private string[] arrData;
 
-        private int startPoint; 
+        private int startPoint;
         private bool run;
 
         public event NotifyPropertyChanged observe;
@@ -65,23 +65,22 @@ namespace APEx1
                 TcpClient client = new TcpClient("127.0.0.1", 5400);
                 NetworkStream stream = client.GetStream();
 
-                this.line = this.startPoint;
-                ProbCalc pc = new ProbCalc(1);
-                Datacollector dc = new Datacollector(this, pc);
+                PLine = this.startPoint;
+                Datacollector dc = new Datacollector(this);
+                PLineCount = arrData.Length - 1;
                 while (run)
                 {
-                    if (this.line >= arrData.Length - 1)
+                    int currentLine = PLine;
+                    if (currentLine >= arrData.Length - 1)
                     {
                         run = false;
                     }
                     // Encode the data string into a byte array.  
-                    byte[] msg = Encoding.ASCII.GetBytes(arrData[line] + "\n");
+                    byte[] msg = Encoding.ASCII.GetBytes(arrData[currentLine] + "\n");
                     stream.Write(msg, 0, msg.Length);
-                   
-             //       Thread t = new Thread(new ThreadStart(dc.updateData(arrData[i])));
-             //       t.Start();
+
                     // dc.updateData(arrData[i]);
-                    this.line++;
+                    this.PLine++;
 
                     System.Threading.Thread.Sleep(frequency);
                 }
@@ -97,6 +96,16 @@ namespace APEx1
             }
         }
 
+        private int lineCount;
+        public int PLineCount
+        {
+            get { return lineCount; }
+            set
+            {
+                lineCount = value;
+                observe(this, "lineCount");
+            }
+        }
         ////////////////////////////////////////////////////////////////////////////////////////
         private int line;
         public int PLine
@@ -108,6 +117,7 @@ namespace APEx1
             set
             {
                 line = value;
+                observe(this, "line");
             }
         }
 
@@ -136,6 +146,7 @@ namespace APEx1
             set
             {
                 frequency = value;
+                observe(this, "frequency");
             }
         }
         private float roll;
@@ -279,92 +290,5 @@ namespace APEx1
         }
 
     }
-
-    
-    public class ProbCalc
-	{
-		private int numberOfRows;
-		private int choosenData;
-		private double[] data = new double[42];
-		private double[] squareData = new double[42];
-		private double[] multData = new double[42];
-		private double[] avr = new double[42];
-
-		public ProbCalc(int i_choosenData)
-		{
-			this.numberOfRows = 0;
-			if (i_choosenData < 0 || i_choosenData > 41)
-			{
-				this.choosenData = 0;
-			} 
-            else
-            {
-				this.choosenData = i_choosenData;
-            }
-			for (int i = 0; i < 42; i++)
-			{
-				data[i] = 0;
-				multData[i] = 0;
-				squareData[i] = 0;
-			}
-		}
-
-		public void addLine(float[] line)
-        {
-			numberOfRows++;
-			for (int i = 0; i < 42; i++)
-            {
-				float t = line[i];
-				multData[i] += t * line[choosenData];
-				squareData[i] = t * t;
-				data[i] += t;
-				//avr[i] = data[i] / numberOfRows; 
-            }
-        }
-
-		public double getAvg(int x)
-        {
-			if (x < 0 || x > 41)
-            {
-				return -1;
-            } 
-			else
-            {
-				return avr[x];
-            }
-        }
-
-		public int gerCurData()
-        {
-			double[] variance = new double[42];
-			for (int i = 0; i < 42; i++)
-			{
-				avr[i] = data[i] / numberOfRows; //this is the expectation
-				variance[i] = (squareData[i] / numberOfRows) - avr[i] * avr[i]; //variance = E[x^2]-E[x]^2 
-			}
-
-			double[] covariance = new double[42];; 
-			double[] pearson = new double[42];;
-
-			for (int i = 0; i < 42; i++)
-			{
-				covariance[i] = (multData[i] / numberOfRows) - avr[i] * avr[choosenData]; //covariance = E[xy]-E[x]E[y] 
-				pearson[i] = covariance[i] / Math.Sqrt(variance[i] * variance[choosenData]);
-			}
-
-			pearson[choosenData] = 0;
-			double maxVal = 0;
-			int maxIndex = 0;
-			for (int i = 0; i < 42; i++)
-			{
-				if (pearson[i] > maxVal)
-                {
-					maxVal = pearson[i];
-					maxIndex = i;
-                }
-			}
-			return maxIndex; 
-		}
-	}
 }
 
