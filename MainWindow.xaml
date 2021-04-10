@@ -18,7 +18,7 @@
     <Button Name="openFile" Click="OpenFile" Margin="10,10,143,378" Grid.ColumnSpan="2">Open file</Button>
     <Slider x:Name="timeSlider" Maximum="100" Minimum="0" TickFrequency="1" Value="{Binding VM_CurrentTime}" Margin="36,394,36,0" Grid.ColumnSpan="5" ValueChanged="ValueChanged"></Slider>
     <!--need to find a way to change maximum to len of array of lines.-->
-    <Slider x:Name="rudder" Margin="120,363,19,28" IsHitTestVisible="False" Focusable="False" Grid.Column="4"/>
+    <Slider x:Name="rudder" Margin="120,363,19,28" IsHitTestVisible="False" Focusable="False" Grid.Column="4" />
     <Slider x:Name="throttle" Margin="199,162,248,226" RenderTransformOrigin="0.647,1.141" IsHitTestVisible="False" Focusable="False" Maximum="1" Minimum="0" Grid.ColumnSpan="4" Grid.Column="1">
       <Slider.RenderTransform>
         <TransformGroup>

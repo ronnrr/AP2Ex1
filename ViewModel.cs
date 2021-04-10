@@ -22,12 +22,15 @@ public class ViewModel
     {
         switch (property)
         {
-            case "line":
+            case "rudder":
+                this.rudder = _model.PRudder;
+                break; 
+          /*  case "line":
                 int temp = VM_CurrentTime;
                 break;
             case "lineCount":
                 int temp1 = VM_MaxTime;
-                break;
+                break;*/
             default:
                 break;
         }
@@ -60,6 +63,7 @@ public class ViewModel
     public void stopAnimation()
     {
         _model.pause();
+        _model.PLine = 1;        
         hasStopped = true;
     }
     public void playAnimationFrequency(int frequency)
@@ -140,7 +144,18 @@ public class ViewModel
     public int VM_height;
 
     public int VM_aileron;
-    public int VM_rudder;
+    public float VM_rudder;
+    public float rudder 
+    {
+        get 
+        {
+            return VM_rudder;
+        }
+        set 
+        {
+            VM_rudder = value; 
+        }
+    }
     public int VM_elevator;
     public int VM_throttle;
 }

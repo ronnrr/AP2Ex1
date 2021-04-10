@@ -10,28 +10,34 @@ namespace APEx1
 {
     public class Model 
     {
-        private List<string> data;
         private string[] arrData;
-
-        private int startPoint;
         private bool run;
+        private Datacollector dc; 
+        private ProbCalc pc; 
+        private TcpClient client; 
+        private NetworkStream stream;
 
         public event NotifyPropertyChanged observe;
-
 		public delegate void NotifyPropertyChanged(object notifyer, string propertyName);
-        //IObservable
-        //public delegate void NotifyPropertyChanged(object notifyer, string propertyName);
-        //public event NotifyPropertyChanged listeners;
 
         public Model()
         {
-            this.data = new List<string>();
+            this.stream = null;
+            this.pc = new ProbCalc(1);
+            this.dc = new Datacollector(this, pc);
+
             line = 0;
         }
 
         public void play(int frequency, int startPoint)
         {
-            this.startPoint = startPoint;
+            if (stream == null) 
+            {
+                this.client = new TcpClient("127.0.0.1", 5400);
+                this.stream = client.GetStream();            
+            }
+            // this.startPoint = startPoint;
+            this.line = startPoint;
             this.frequency = frequency;
             this.run = true;
 
@@ -49,6 +55,8 @@ namespace APEx1
             try
             {
                 arrData = File.ReadAllLines(name);
+                PLineCount = arrData.Length - 1; //set the length of the flight to viewModel
+
             }
             catch (Exception e)
             {
@@ -61,37 +69,31 @@ namespace APEx1
         {
             try
             {
-                // Int32 port = 5400;
-                TcpClient client = new TcpClient("127.0.0.1", 5400);
-                NetworkStream stream = client.GetStream();
-
-                PLine = this.startPoint;
-                ProbCalc pc = new ProbCalc(1);
-                Datacollector dc = new Datacollector(this, pc);
-                PLineCount = arrData.Length - 1;
                 while (run)
                 {
                     int currentLine = PLine;
-                    if (currentLine >= arrData.Length - 1)
+                    if (currentLine >= PLineCount)
                     {
                         run = false;
                     }
                     // Encode the data string into a byte array.  
                     byte[] msg = Encoding.ASCII.GetBytes(arrData[currentLine] + "\n");
-                    stream.Write(msg, 0, msg.Length);
+                    this.stream.Write(msg, 0, msg.Length);
 
-                    // dc.updateData(arrData[i]);
+                    dc.updateData(arrData[PLine]);
                     this.PLine++;
 
                     System.Threading.Thread.Sleep(frequency);
                 }
 
                 // Close everything.
-                stream.Close();
-                client.Close();
+                //stream.Close();
+                //client.Close();
             }
             catch (Exception e)
             {
+                stream.Close();
+                client.Close();
                 Console.WriteLine(e.Message);
                 System.Threading.Thread.Sleep(10000);
             }
