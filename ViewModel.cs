@@ -1,15 +1,41 @@
+using APEx1;
 using System;
-
+using System.ComponentModel;
 public class ViewModel
 {
     // when entering a new file reset hasstopped to false.
     private APEx1.Model _model;
+    public event PropertyChangedEventHandler PropertyChanged;
+    public void NotifyPropertyChanged(string propName) 
+    {
+        
+    }
+
 
     public ViewModel(APEx1.Model model)
     {
         this._model = model;
+        model.observe += updateData;
     }
 
+    public void updateData(object notifier, string property)
+    {
+        switch (property)
+        {
+            case "line":
+                int temp = VM_CurrentTime;
+                break;
+            case "lineCount":
+                int temp1 = VM_MaxTime;
+                break;
+            default:
+                break;
+        }
+    }
+    public void updateCurrentLine(int value)
+    {
+        _model.PLine = value;
+    }
     public void setModelFileName(string file)
     {
         _model.loadFile(file);
@@ -52,14 +78,39 @@ public class ViewModel
         get { return _model.PLine; }
         set
         {
-            currentTime = value;
-            _model.PLine = value;
-            _model.pause();
-            _model.play(VM_Frequency, currentTime);
+            if (currentTime != value)
+            {
+                _model.PLine = value;
+                currentTime = value;
+                /*int ca = value;
+                currentTime = value;
+                _model.PLine = value;
+                _model.pause();
+                _model.play(VM_Frequency, currentTime);*/
+            }
         }
     }
 
 
+    public int VM_MaxTime
+    {
+        get
+        {
+            return _model.PLineCount;
+        }
+        set
+        {
+            _model.PLineCount = value;
+        }
+    }
+    public int VM_Line
+    {
+        get { return _model.PLine; }
+        set
+        {
+            _model.PLine = value;
+        }
+    }
     public int VM_Frequency
     {
         get { return _model.PFrequency; }

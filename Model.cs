@@ -13,7 +13,7 @@ namespace APEx1
         private List<string> data;
         private string[] arrData;
 
-        private int startPoint; 
+        private int startPoint;
         private bool run;
 
         public event NotifyPropertyChanged observe;
@@ -65,21 +65,22 @@ namespace APEx1
                 TcpClient client = new TcpClient("127.0.0.1", 5400);
                 NetworkStream stream = client.GetStream();
 
-                this.line = this.startPoint;
+                PLine = this.startPoint;
                 Datacollector dc = new Datacollector(this);
-
+                PLineCount = arrData.Length - 1;
                 while (run)
                 {
-                    if (this.line >= arrData.Length - 1)
+                    int currentLine = PLine;
+                    if (currentLine >= arrData.Length - 1)
                     {
                         run = false;
                     }
                     // Encode the data string into a byte array.  
-                    byte[] msg = Encoding.ASCII.GetBytes(arrData[line] + "\n");
+                    byte[] msg = Encoding.ASCII.GetBytes(arrData[currentLine] + "\n");
                     stream.Write(msg, 0, msg.Length);
 
                     // dc.updateData(arrData[i]);
-                    this.line++;
+                    this.PLine++;
 
                     System.Threading.Thread.Sleep(frequency);
                 }
@@ -95,6 +96,16 @@ namespace APEx1
             }
         }
 
+        private int lineCount;
+        public int PLineCount
+        {
+            get { return lineCount; }
+            set
+            {
+                lineCount = value;
+                observe(this, "lineCount");
+            }
+        }
         ////////////////////////////////////////////////////////////////////////////////////////
         private int line;
         public int PLine
@@ -106,6 +117,7 @@ namespace APEx1
             set
             {
                 line = value;
+                observe(this, "line");
             }
         }
 
@@ -134,6 +146,7 @@ namespace APEx1
             set
             {
                 frequency = value;
+                observe(this, "frequency");
             }
         }
         private float roll;
