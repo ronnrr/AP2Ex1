@@ -5,7 +5,7 @@ public class ViewModel
 {
     // when entering a new file reset hasstopped to false.
     private APEx1.Model _model;
-    public event PropertyChangedEventHandler PropertyChanged;
+    //public event PropertyChangedEventHandler PropertyChanged;
     public void NotifyPropertyChanged(string propName) 
     {
         
