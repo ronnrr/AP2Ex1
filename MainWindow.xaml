@@ -7,38 +7,55 @@
         xmlns:local="clr-namespace:WpfApp1"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
-    <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="313*"/>
-            <ColumnDefinition Width="479*"/>
-        </Grid.ColumnDefinitions>
-        <Button Name="openFile" Click="OpenFile" Margin="10,71,119.384,277">Open file</Button>
-        <Slider x:Name="timeSlider" Maximum="100" Minimum="0" TickFrequency="1" Value="{Binding VM_CurrentTime}" Margin="0,0,-7,394" Grid.ColumnSpan="2"></Slider>
-        <!--need to find a way to change maximum to len of array of lines.--> 
-        <Slider x:Name="rudder" Margin="0,391,110.384,0"></Slider>
-        <Slider x:Name="throttle" Margin="0,350,106,38" RenderTransformOrigin="0.5,0.5">
-            <Slider.RenderTransform>
-                <TransformGroup>
-                    <ScaleTransform/>
-                    <SkewTransform AngleY="-0.161"/>
-                    <RotateTransform/>
-                    <TranslateTransform Y="-1.115"/>
-                </TransformGroup>
-            </Slider.RenderTransform>
-        </Slider>
-        <Button x:Name="playButton" Click="PlayClick" Margin="16,35,282.384,369" RenderTransformOrigin="0.5,0.5">
-            <Button.RenderTransform>
-                <TransformGroup>
-                    <ScaleTransform/>
-                    <SkewTransform/>
-                    <RotateTransform Angle="-0.164"/>
-                    <TranslateTransform/>
-                </TransformGroup>
-            </Button.RenderTransform>
-        </Button>
-        <Button x:Name="pauseButton" Click="PauseClick" Margin="46,35,252.384,370"></Button>
-        <Button x:Name="stopButton" Click="StopClick" Margin="80,35,217.384,364"></Button>
-        <Button x:Name="increaseSpeed" Click="IncreaseFrequency" Margin="198,35,95.384,363"></Button>
-        <Button x:Name="decreaseSpeed" Click="DecreaseFrequency" Margin="117,25,146.384,353"></Button>
-    </Grid>
+  <Grid>
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition Width="311*"/>
+      <ColumnDefinition Width="481*"/>
+    </Grid.ColumnDefinitions>
+    <Button Name="openFile" Click="OpenFile" Margin="25,78,104,270">Open file</Button>
+    <Slider x:Name="timeSlider" Maximum="100" Minimum="0" TickFrequency="1" Value="{Binding VM_CurrentTime}" Margin="41,371,41,0" Grid.ColumnSpan="2"></Slider>
+    <!--need to find a way to change maximum to len of array of lines.-->
+    <Slider x:Name="rudder" Margin="104,35,176,356" Grid.Column="1"></Slider>
+    <Slider x:Name="throttle" Margin="104,6,176,382" RenderTransformOrigin="0.5,0.5" Grid.Column="1">
+      <Slider.RenderTransform>
+        <TransformGroup>
+          <ScaleTransform/>
+          <SkewTransform AngleY="-0.161"/>
+          <RotateTransform/>
+          <TranslateTransform Y="-1.115"/>
+        </TransformGroup>
+      </Slider.RenderTransform>
+    </Slider>
+    <Button x:Name="playButton" Click="PlayClick" Margin="80,13,181,356" RenderTransformOrigin="0.5,0.5" Height="50" Width="50">
+      <Image Source="images/play1.jpg" RenderTransformOrigin="1.37,0.285"></Image>
+
+      <Button.RenderTransform>
+        <TransformGroup>
+          <ScaleTransform/>
+          <SkewTransform/>
+          <RotateTransform Angle="-0.164"/>
+          <TranslateTransform/>
+        </TransformGroup>
+      </Button.RenderTransform>
+    </Button>
+    <Button x:Name="pauseButton" Click="PauseClick" Margin="135,13,126,356" Height="50" Width="50">
+      <Image Source="images/pause1.jpg"></Image>
+    </Button>
+    <Button x:Name="stopButton" Click="StopClick" Margin="25,13,236,356" Height="50" Width="50">
+      <Image Source="images/stop1.jpg"></Image>
+    </Button>
+    <Button x:Name="increaseSpeed" Click="IncreaseFrequency" Margin="245,13,16,356" Height="50" Width="50" RenderTransformOrigin="-2.8,0.62"></Button>
+    <Button x:Name="decreaseSpeed" Click="DecreaseFrequency" Margin="190,13,71,356" Height="50" Width="50"></Button>
+
+    <ListBox x:Name="list" Margin="25,169,119,62">
+      <ListBox.Items>
+        <ListBoxItem Content="Item 1" />
+        <ListBoxItem Content="Item 2" />
+        <ListBoxItem Content="Item 3" />
+        <ListBoxItem Content="Item 4" />
+      </ListBox.Items>
+    </ListBox>
+    <Label Content="Throttle:" Grid.Column="1" HorizontalAlignment="Left" Height="25" Margin="21,0,0,0" VerticalAlignment="Top" Width="82"/>
+    <Label Content="Rudder:" Grid.Column="1" HorizontalAlignment="Left" Height="25" Margin="21,30,0,0" VerticalAlignment="Top" Width="82" RenderTransformOrigin="0.5,0.2"/>
+  </Grid>
 </Window>

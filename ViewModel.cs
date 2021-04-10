@@ -13,7 +13,7 @@ public class ViewModel
     public void setModelFileName(string file)
     {
         _model.loadFile(file);
-        _model.play(100, 0);
+        _model.play(100, 1);
         hasStopped = false;
     }
     public void playAnimation()
