@@ -32,7 +32,6 @@ namespace WpfApp1
             InitializeComponent();
             vm = new ViewModel(new APEx1.Model());
             DataContext = vm;
-            LoadList();
         }
         
         public void PlayClick(object sender, RoutedEventArgs e)
@@ -65,15 +64,22 @@ namespace WpfApp1
             string a = openFileDialog.FileName;
             vm.setModelFileName(a);
         }
+        public void OpenXML(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            if (openFileDialog.ShowDialog() == true)
+                File.ReadAllText(openFileDialog.FileName);
+            string a = openFileDialog.FileName;
+            LoadList(a);
+        }
         public void ValueChanged(object sender, RoutedEventArgs e)
         {
             Slider slider = sender as Slider;
             vm.updateCurrentLine((int)slider.Value);
         }
 
-        public void LoadList() 
+        public void LoadList(string name) 
         {
-            string name = "C://playback_small.xml";
             XmlDocument doc = new XmlDocument();  
             doc.Load(name);
             XmlNodeList input = doc.SelectNodes("//PropertyList/generic/input/chunk");

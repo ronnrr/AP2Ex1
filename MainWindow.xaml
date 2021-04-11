@@ -15,7 +15,7 @@
       <ColumnDefinition Width="27*"/>
       <ColumnDefinition Width="479*"/>
     </Grid.ColumnDefinitions>
-    <Button Name="openFile" Click="OpenFile" Margin="10,10,146,608" Grid.ColumnSpan="2">Open file</Button>
+    <Button x:Name="openFile" Click="OpenFile" Margin="10,10,146,608" Grid.ColumnSpan="2" Content="Open flight file"/>
     <Slider x:Name="timeSlider" Maximum="100" Minimum="0" TickFrequency="1" Value="{Binding VM_CurrentTime}" Margin="30,609,42,-215" Grid.ColumnSpan="5" ValueChanged="ValueChanged"></Slider>
     <!--need to find a way to change maximum to len of array of lines.-->
     <Slider x:Name="rudder" Margin="182,367,19,272" IsHitTestVisible="False" Focusable="False" Grid.Column="4"/>
@@ -159,7 +159,7 @@
         </Canvas.RenderTransform>
         <Canvas.Resources>
 
-          <Storyboard x:Key="CenterKnob" Name="centerKnob" >
+          <Storyboard x:Key="CenterKnob" Name="centerKnob">
 
             <DoubleAnimation Storyboard.TargetName="knobPosition"
                  Storyboard.TargetProperty="X" To="0" Duration="0:0:0.2">
@@ -200,5 +200,6 @@
       <Label Grid.Row="2" Content="Altimeter:" Grid.Column="1"/>
       <Label Grid.Row="3" Content="Direction:" Grid.Column="1"/>
     </Grid>
+    <Button x:Name="openXML" Click="OpenXML" Margin="92,10,10,608" Content="Open XML file" Grid.Column="1"/>
   </Grid>
 </Window>
