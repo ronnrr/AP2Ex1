@@ -20,20 +20,25 @@ public class ViewModel
 
     public void updateData(object notifier, string property)
     {
+        if (property.Equals("throttle")) 
+        {
+            VM_throttle = _model.PThrottle;
+        }
+        /*
         switch (property)
         {
-            case "rudder":
-                this.rudder = _model.PRudder;
+            case "throttle":
+                VM_throttle = _model.PThrottle;
                 break; 
-          /*  case "line":
+            case "line":
                 int temp = VM_CurrentTime;
                 break;
             case "lineCount":
                 int temp1 = VM_MaxTime;
-                break;*/
+                break;
             default:
                 break;
-        }
+        }*/
     }
     public void updateCurrentLine(int value)
     {
@@ -144,18 +149,32 @@ public class ViewModel
     public int VM_height;
 
     public int VM_aileron;
-    public float VM_rudder;
-    public float rudder 
+    public float rudder;
+    public float VM_rudder 
     {
         get 
         {
-            return VM_rudder;
+            return rudder;
         }
         set 
         {
-            VM_rudder = value; 
+            rudder = value; 
         }
     }
     public int VM_elevator;
-    public int VM_throttle;
+    public float throttle;
+    public float VM_throttle 
+    {
+        get 
+        {
+            return throttle;
+        }
+        set 
+        {
+            if (throttle != value) 
+            {
+                throttle = value; 
+            }
+        }
+    }
 }

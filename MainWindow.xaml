@@ -6,8 +6,8 @@
         xmlns:Controls="clr-namespace:WpfApp1.Controls"
         xmlns:local="clr-namespace:WpfApp1"
         mc:Ignorable="d"
-        Title="MainWindow" Height="448" Width="800">
-  <Grid>
+        Title="MainWindow" Height="699" Width="890">
+  <Grid Margin="0,0,2,0">
     <Grid.ColumnDefinitions>
       <ColumnDefinition Width="49*"/>
       <ColumnDefinition Width="203*"/>
@@ -15,11 +15,11 @@
       <ColumnDefinition Width="27*"/>
       <ColumnDefinition Width="479*"/>
     </Grid.ColumnDefinitions>
-    <Button Name="openFile" Click="OpenFile" Margin="10,10,143,378" Grid.ColumnSpan="2">Open file</Button>
-    <Slider x:Name="timeSlider" Maximum="100" Minimum="0" TickFrequency="1" Value="{Binding VM_CurrentTime}" Margin="36,394,36,0" Grid.ColumnSpan="5" ValueChanged="ValueChanged"></Slider>
+    <Button Name="openFile" Click="OpenFile" Margin="10,10,146,608" Grid.ColumnSpan="2">Open file</Button>
+    <Slider x:Name="timeSlider" Maximum="100" Minimum="0" TickFrequency="1" Value="{Binding VM_CurrentTime}" Margin="30,609,42,-215" Grid.ColumnSpan="5" ValueChanged="ValueChanged"></Slider>
     <!--need to find a way to change maximum to len of array of lines.-->
-    <Slider x:Name="rudder" Margin="120,363,19,28" IsHitTestVisible="False" Focusable="False" Grid.Column="4" />
-    <Slider x:Name="throttle" Margin="199,162,248,226" RenderTransformOrigin="0.647,1.141" IsHitTestVisible="False" Focusable="False" Maximum="1" Minimum="0" Grid.ColumnSpan="4" Grid.Column="1">
+    <Slider x:Name="rudder" Margin="182,367,19,272" IsHitTestVisible="False" Focusable="False" Grid.Column="4"/>
+    <Slider x:Name="throttle" Margin="18,131,243,491" RenderTransformOrigin="0.647,1.141" IsHitTestVisible="False" Focusable="False" Maximum="1" Minimum="0" Grid.Column="3" Grid.ColumnSpan="2">
       <Slider.RenderTransform>
         <TransformGroup>
           <ScaleTransform/>
@@ -29,7 +29,7 @@
         </TransformGroup>
       </Slider.RenderTransform>
     </Slider>
-    <Button x:Name="playButton" Click="PlayClick" Margin="13,58,189,309" RenderTransformOrigin="0.5,0.5" Width="50" Height="50" Grid.ColumnSpan="2">
+    <Button x:Name="playButton" Click="PlayClick" Margin="10,72,220,546" RenderTransformOrigin="0.5,0.5" Width="50" Height="50" Grid.ColumnSpan="2">
       <Image Source="images/play1.jpg"></Image>
       <Button.RenderTransform>
         <TransformGroup>
@@ -40,15 +40,15 @@
         </TransformGroup>
       </Button.RenderTransform>
     </Button>
-    <Button x:Name="pauseButton" Click="PauseClick" Margin="74,58,79,309" Grid.Column="1" RenderTransformOrigin="5.424,0.5" Width="50" Height="50">
+    <Button x:Name="pauseButton" Click="PauseClick" Margin="68,72,108,546" Grid.Column="1" RenderTransformOrigin="5.424,0.5" Width="50" Height="50">
       <Image Source="images/pause1.jpg"></Image>
     </Button>
-    <Button x:Name="stopButton" Click="StopClick" Margin="19,58,134,309" Grid.Column="1" Width="50" Height="50" RenderTransformOrigin="-2.5,-2.08">
+    <Button x:Name="stopButton" Click="StopClick" Margin="14,72,162,546" Grid.Column="1" Width="50" Height="50" RenderTransformOrigin="-2.5,-2.08">
       <Image Source="images/stop1.jpg"></Image>
     </Button>
-    <Button x:Name="increaseSpeed" Click="IncreaseFrequency" Margin="129,58,24,309" Grid.Column="1" Width="50" Height="50"></Button>
-    <Button x:Name="decreaseSpeed" Click="DecreaseFrequency" Margin="184,58,3,309" Grid.Column="1" Width="50" Height="50" Grid.ColumnSpan="2"/>
-    <Canvas  x:Name="Base" Margin="120,20,19,59" Width="340" Height="340" Grid.Column="4">
+    <Button x:Name="increaseSpeed" Click="IncreaseFrequency" Margin="124,72,52,546" Grid.Column="1" Width="50" Height="50"></Button>
+    <Button x:Name="decreaseSpeed" Click="DecreaseFrequency" Margin="180,72,34,546" Grid.Column="1" Width="50" Height="50" Grid.ColumnSpan="2"/>
+    <Canvas  x:Name="Base" Margin="173,10,19,318" Width="340" Height="340" Grid.Column="4">
       <Ellipse HorizontalAlignment="Left" Height="340" VerticalAlignment="Top" Width="340">
         <Ellipse.Fill>
           <RadialGradientBrush>
@@ -177,40 +177,28 @@
       </Canvas>
     </Canvas>
 
-    <ListBox x:Name="list" Margin="10,127,89,73" Grid.ColumnSpan="2">
+    <ListBox x:Name="list" Margin="10,138,0,406" Grid.ColumnSpan="2">
       <ListBox.Items>
-        <ListBoxItem Content="Item 1" />
-        <ListBoxItem Content="Item 2" />
-        <ListBoxItem Content="Item 3" />
-        <ListBoxItem Content="Item 4" />
-        <ListBoxItem Content="Item 4" />
-        <ListBoxItem Content="Item 4" />
-        <ListBoxItem Content="Item 4" />
-        <ListBoxItem Content="Item 4" />
-        <ListBoxItem Content="Item 4" />
-        <ListBoxItem Content="Item 4" />
-        <ListBoxItem Content="Item 4" />
-        <ListBoxItem Content="Item 4" />
-        <ListBoxItem Content="Item 4" />
-        <ListBoxItem Content="Item 4" />
-        <ListBoxItem Content="Item 4" />
-        <ListBoxItem Content="Item 4" />
-        <ListBoxItem Content="Item 4" />
-        <ListBoxItem Content="Item 4" />
-        <ListBoxItem Content="Item 4" />
-        <ListBoxItem Content="Item 4" />
-        <ListBoxItem Content="Item 4" />
-        <ListBoxItem Content="Item 4" />
-        <ListBoxItem Content="Item 4" />
-        <ListBoxItem Content="Item 4" />
-        <ListBoxItem Content="Item 4" />
-        <ListBoxItem Content="Item 4" />
-        <ListBoxItem Content="Item 4" />
-        <ListBoxItem Content="Item 4" />
-        <ListBoxItem Content="Item 4" />
-        <ListBoxItem Content="Item 4" />
       </ListBox.Items>
     </ListBox>
+    <Expander Header="Expander" HorizontalAlignment="Left" Height="100" Margin="-101,553,0,0" VerticalAlignment="Top" Width="100">
+      <Grid Background="#FFE5E5E5"/>
+    </Expander>
+    <Label Content="" Grid.Column="4" HorizontalAlignment="Left" Height="32" Margin="118,411,0,0" VerticalAlignment="Top" Width="119"/>
+    <Grid Grid.Column="4" HorizontalAlignment="Left" Height="168" Margin="182,411,0,0" VerticalAlignment="Top" Width="331">
+      <Grid.RowDefinitions>
+        <RowDefinition Height="Auto"></RowDefinition>
+        <RowDefinition Height="Auto"></RowDefinition>
+        <RowDefinition Height="Auto"></RowDefinition>
+        <RowDefinition Height="Auto"></RowDefinition>
+      </Grid.RowDefinitions>
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="Auto"></ColumnDefinition>
+        <ColumnDefinition Width="*"></ColumnDefinition>
+      </Grid.ColumnDefinitions>
+      <Label Grid.Row="1" Content="Airspeed:" Grid.Column="1"/>
+      <Label Grid.Row="2" Content="Altimeter:" Grid.Column="1"/>
+      <Label Grid.Row="3" Content="Direction:" Grid.Column="1"/>
+    </Grid>
   </Grid>
 </Window>
-

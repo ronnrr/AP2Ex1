@@ -274,8 +274,11 @@ namespace APEx1
             }
             set
             {
-                throttle = value;
-                observe(this, "throttle");
+                if (throttle != value)
+                {
+                    throttle = value;
+                    observe(this, "throttle");
+                }
             }
         }
         private string path;

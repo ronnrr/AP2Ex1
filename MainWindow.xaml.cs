@@ -15,6 +15,7 @@ using System.Windows.Shapes;
 using Microsoft.Win32;
 using System.Windows;
 using System.IO;
+using System.Xml;
 
 
 
@@ -31,6 +32,7 @@ namespace WpfApp1
             InitializeComponent();
             vm = new ViewModel(new APEx1.Model());
             DataContext = vm;
+            LoadList();
         }
         
         public void PlayClick(object sender, RoutedEventArgs e)
@@ -67,6 +69,21 @@ namespace WpfApp1
         {
             Slider slider = sender as Slider;
             vm.updateCurrentLine((int)slider.Value);
+        }
+
+        public void LoadList() 
+        {
+            string name = "C://playback_small.xml";
+            XmlDocument doc = new XmlDocument();  
+            doc.Load(name);
+            XmlNodeList input = doc.SelectNodes("//PropertyList/generic/input/chunk");
+            foreach (XmlNode node in input) 
+            {
+                ListBoxItem newItem = new ListBoxItem();
+                newItem.Content = node["name"].InnerText;
+                this.list.Items.Add(newItem);
+            }
+        
         }
     }
 }
