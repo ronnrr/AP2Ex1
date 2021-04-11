@@ -5,7 +5,7 @@ public class ViewModel
 {
     // when entering a new file reset hasstopped to false.
     private APEx1.Model _model;
-    //public event PropertyChangedEventHandler PropertyChanged;
+    public event PropertyChangedEventHandler PropertyChanged;
     public void NotifyPropertyChanged(string propName) 
     {
         
@@ -24,21 +24,21 @@ public class ViewModel
         {
             VM_throttle = _model.PThrottle;
         }
-        /*
+        
         switch (property)
         {
             case "throttle":
                 VM_throttle = _model.PThrottle;
                 break; 
             case "line":
-                int temp = VM_CurrentTime;
+                VM_CurrentTime = ((Model)notifier).PLine;
                 break;
             case "lineCount":
                 int temp1 = VM_MaxTime;
                 break;
             default:
                 break;
-        }*/
+        }
     }
     public void updateCurrentLine(int value)
     {
@@ -87,6 +87,10 @@ public class ViewModel
         get { return _model.PLine; }
         set
         {
+            /*if (currentTime == 62)
+            {
+                Console.Write("Hello");
+            }*/
             if (currentTime != value)
             {
                 _model.PLine = value;

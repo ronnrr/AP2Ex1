@@ -119,8 +119,11 @@ namespace APEx1
             }
             set
             {
-                line = value;
-                observe(this, "line");
+                if (value != line)
+                {
+                    line = value;
+                    observe(this, "line");
+                }
             }
         }
 
